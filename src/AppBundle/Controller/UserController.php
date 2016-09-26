@@ -106,12 +106,6 @@ class UserController extends FOSRestController
 	public function deleteAction($id)
 	{
 		$data = new User;
-
-
-
-
-		des
-
 		$sn = $this->getDoctrine()->getManager();
 		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
 		if (empty($user)) 
