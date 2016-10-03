@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * marker
  *
- * @ORM\Table(name="marker")
+ * @ORM\Table(name="locatie")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\markerRepository")
  */
 class Marker
