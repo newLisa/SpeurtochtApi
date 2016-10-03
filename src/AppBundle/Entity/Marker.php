@@ -21,6 +21,13 @@ class Marker
      */
     private $id;
 
+     /**
+     * @var float
+     *
+     * @ORM\Column(name="name", type="string")
+     */
+    private $name;
+
     /**
      * @var float
      *
@@ -93,5 +100,28 @@ class Marker
     {
         return $this->longitude;
     }
-}
 
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Marker
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+}
