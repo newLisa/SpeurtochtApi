@@ -65,6 +65,10 @@ class VraagController extends FOSRestController
 
 		return new View("Question added succesfully", Response::HTTP_OK);
 	}
+	
+	/*
+		//TODO Put does not work yet
+	*/
 
 	// /**
 	// * @Rest\Put("/vraag/{id}")
