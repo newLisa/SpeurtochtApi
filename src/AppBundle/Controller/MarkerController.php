@@ -61,7 +61,6 @@ class MarkerController extends FOSRestController
 	 return new View("Marker Added Successfully", Response::HTTP_OK);
 	}
 
-
 	/**
 	* @Rest\Put("/marker/{id}")
 	*/

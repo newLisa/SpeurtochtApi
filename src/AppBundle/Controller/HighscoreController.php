@@ -18,9 +18,10 @@ class HighscoreController extends FOSRestController
     public function getAction()
     {
       $restresult = $this->getDoctrine()->getRepository('AppBundle:Highscore')->findAll();
-        if ($restresult === null) {
+        if ($restresult === null) 
+        {
           return new View("there are no highscores to display.", Response::HTTP_NOT_FOUND);
-     }
+        }
         return $restresult;
     }
 
