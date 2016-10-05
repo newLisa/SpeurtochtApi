@@ -29,11 +29,11 @@ class User
     private $name;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="role", type="string", length=255)
+     * @ORM\Column(name="pin", type="integer", length=4)
      */
-    private $role;
+    private $pin;
 
 
     /**
@@ -73,13 +73,13 @@ class User
     /**
      * Set role
      *
-     * @param string $role
+     * @param integer $role
      *
      * @return User
      */
-    public function setRole($role)
+    public function setPin($role)
     {
-        $this->role = $role;
+        $this->pin = $pin;
 
         return $this;
     }
@@ -87,11 +87,11 @@ class User
     /**
      * Get role
      *
-     * @return string
+     * @return int
      */
-    public function getRole()
+    public function getPin()
     {
-        return $this->role;
+        return $this->pin;
     }
 }
 

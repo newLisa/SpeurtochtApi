@@ -44,15 +44,15 @@ class UserController extends FOSRestController
 	{
 		$data = new User;
 		$name = $request->get('name');
-		$role = $request->get('role');
+		$pin = $request->get('pin');
 
-		if(empty($name) || empty($role))
+		if(empty($name) || empty($pin))
 		{
 			return new View("NULL VALUES ARE NOT ALLOWED", Response::HTTP_NOT_ACCEPTABLE); 
 		}
 
 		$data->setName($name);
-		$data->setRole($role);
+		$data->setPin($pin);
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($data);
 		$em->flush();
@@ -68,35 +68,35 @@ class UserController extends FOSRestController
 	{ 
 		$data = new User;
 		$name = $request->get('name');
-		$role = $request->get('role');
+		$pin = $request->get('pin');
 		$sn = $this->getDoctrine()->getManager();
 		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
 		if (empty($user)) 
 		{
-			return new View("user not found", Response::HTTP_NOT_FOUND);
+			return new View("User not found", Response::HTTP_NOT_FOUND);
 		} 
-		elseif(!empty($name) && !empty($role))
+		elseif(!empty($name) && !empty($pin))
 		{
 			$user->setName($name);
-			$user->setRole($role);
+			$user->setPin($pin);
 			$sn->flush();
 			return new View("User Updated Successfully", Response::HTTP_OK);
 		}
-		elseif(empty($name) && !empty($role))
+		elseif(empty($name) && !empty($pin))
 		{
-			$user->setRole($role);
+			$user->setPin($pin);
 			$sn->flush();
-			return new View("role Updated Successfully", Response::HTTP_OK);
+			return new View("PIN Updated Successfully", Response::HTTP_OK);
 		}
-		elseif(!empty($name) && empty($role))
+		elseif(!empty($name) && empty($pin))
 		{
 			$user->setName($name);
 			$sn->flush();
-			return new View("User Name Updated Successfully", Response::HTTP_OK); 
+			return new View("User-Name Updated Successfully", Response::HTTP_OK); 
 		}
 		else 
 		{
-			return new View("User name or role cannot be empty", Response::HTTP_NOT_ACCEPTABLE); 
+			return new View("User-name or PIN cannot be empty", Response::HTTP_NOT_ACCEPTABLE); 
 		}
 	}
 
@@ -110,7 +110,7 @@ class UserController extends FOSRestController
 		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
 		if (empty($user)) 
 		{
-			return new View("user not found", Response::HTTP_NOT_FOUND);
+			return new View("User not found", Response::HTTP_NOT_FOUND);
 		}
 	else 
 	{
@@ -118,6 +118,6 @@ class UserController extends FOSRestController
 		$sn->flush();
 	}
 	
-	return new View("deleted successfully", Response::HTTP_OK);
+	return new View("Deleted successfully", Response::HTTP_OK);
 	}
 }
