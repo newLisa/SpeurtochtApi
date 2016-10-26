@@ -30,12 +30,36 @@ class Tocht_Locatie_Controller extends FOSRestController
 	*/
 	public function idAction($id)
 	{
-		$singleresult = $this->getDoctrine()->getRepository('AppBundle:Koppel_tocht_locatie')->find($id);
-	 	if ($singleresult === null) 
+		//haal de koppeltabel op
+		$repository = $this->getDoctrine()->getRepository('AppBundle:Koppel_tocht_locatie');
+
+		//zoek alleen de resultaten op met tocht_id $id
+		$query = $repository->createQueryBuilder('q')
+   		 ->where('q.tochtId = :id')
+   		 ->setParameter('id', $id)
+    	 ->getQuery();
+
+    	 $results = $query->getResult();
+
+	 	if ($results === null) 
 	 	{
 			return new View("record not found", Response::HTTP_NOT_FOUND);
 	    }
-	 return $singleresult;
+
+	    foreach ($results as $result) 
+	    {
+	    	$repository2 = $this->getDoctrine()->getRepository('AppBundle:Marker');
+
+	    	$query = $repository2->createQueryBuilder('q')
+	    	->where('q.id = :id')
+	    	->setParameter('id', $result->getLocatieId())
+	    	->getQuery();
+
+	    	$allLocations[] = $query->getResult();
+	    }
+
+	 return $allLocations;
+
 	}
 
 	/**
