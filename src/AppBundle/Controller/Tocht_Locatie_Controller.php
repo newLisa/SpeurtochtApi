@@ -43,23 +43,30 @@ class Tocht_Locatie_Controller extends FOSRestController
 
 	 	if ($results === null) 
 	 	{
-			return new View("record not found", Response::HTTP_NOT_FOUND);
+			return new View("Speurtocht not found", Response::HTTP_NOT_FOUND);
 	    }
 
+	    //sla alle locatie ids op in een array
+	    $locatieids = array();
 	    foreach ($results as $result) 
 	    {
-	    	$repository2 = $this->getDoctrine()->getRepository('AppBundle:Marker');
-
-	    	$query = $repository2->createQueryBuilder('q')
-	    	->where('q.id = :id')
-	    	->setParameter('id', $result->getLocatieId())
-	    	->getQuery();
-
-	    	$allLocations[] = $query->getResult();
+	    	$locatieids[] = $result->getLocatieId();
 	    }
 
-	 return $allLocations;
+	    //haal de lacaties op met gebruik van de locatie array
+    	$markerRepository = $this->getDoctrine()->getRepository('AppBundle:Marker');
 
+    	$markerQuery = $markerRepository->createQueryBuilder('m');
+    	$markerQuery->where($markerQuery->expr()->in("m.id", $locatieids));
+
+    	$markerResults = $markerQuery->getQuery()->getResult();
+
+    	 if ($markerResults === null) 
+	 	{
+			return new View("no markers found", Response::HTTP_NOT_FOUND);
+	    }
+
+	return $markerResults;
 	}
 
 	/**
