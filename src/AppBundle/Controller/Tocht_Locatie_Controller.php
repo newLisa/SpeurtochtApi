@@ -53,7 +53,7 @@ class Tocht_Locatie_Controller extends FOSRestController
 	    	$locatieids[] = $result->getLocatieId();
 	    }
 
-	    //haal de lacaties op met gebruik van de locatie array
+	    //haal de locaties op met gebruik van de locatie array
     	$markerRepository = $this->getDoctrine()->getRepository('AppBundle:Marker');
 
     	$markerQuery = $markerRepository->createQueryBuilder('m');
