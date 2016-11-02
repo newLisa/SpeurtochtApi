@@ -49,6 +49,8 @@ class Tocht_User_Controller extends FOSRestController
 		$started_bool = $request->get('started_bool');
 		$finished_bool = $request->get('finished_bool');
 
+		file_put_contents("testFile.txt",(string)$request);
+
 		if(empty($tocht_id) || empty($user_id) || empty($started_bool) || empty($finished_bool))
 		{
 			return new View("NULL VALUES ARE NOT ALLOWED", Response::HTTP_NOT_ACCEPTABLE); 

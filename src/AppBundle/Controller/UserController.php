@@ -57,7 +57,9 @@ class UserController extends FOSRestController
 		$em->persist($data);
 		$em->flush();
 
-	 return new View("User Added Successfully", Response::HTTP_OK);
+		$id = $data->getId();
+
+		return new View($id, Response::HTTP_OK);
 	}
 
 
@@ -119,5 +121,22 @@ class UserController extends FOSRestController
 	}
 	
 	return new View("Deleted successfully", Response::HTTP_OK);
+	}
+
+	public function generatePIN()
+	{
+		$repository = $this->getDoctrine()->getRepository('AppBundle:Product');
+
+		$pin = rand(1000,9999);
+
+		$dbPin = $repository->FindOneByPin($pin);
+
+		 while($dbPin != null)
+		{
+			$pin = rand(1000,9999);
+			$dbPin = $repository->FindOneByPin($pin);
+		}
+
+		return $pin;
 	}
 }
