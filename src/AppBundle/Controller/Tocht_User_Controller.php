@@ -18,11 +18,13 @@ class Tocht_User_Controller extends FOSRestController
     public function getAction()
     {
       $restresult = $this->getDoctrine()->getRepository('AppBundle:Koppel_tocht_user')->findAll();
-        if ($restresult === null) 
-        {
-          return new View("there are no records to display.", Response::HTTP_NOT_FOUND);
-        }
-        return $restresult;
+      $restObj = json_decode($json);
+      var_dump($restObj);
+        // if ($restresult === null) 
+        // {
+        //   return new View("there are no records to display.", Response::HTTP_NOT_FOUND);
+        // }
+        // return $restresult;
     }
 
 	/**

@@ -71,13 +71,13 @@ class User
     }
 
     /**
-     * Set role
+     * Set pin
      *
-     * @param integer $role
+     * @param integer $pin
      *
      * @return User
      */
-    public function setPin($role)
+    public function setPin($pin)
     {
         $this->pin = $pin;
 
@@ -85,7 +85,7 @@ class User
     }
 
     /**
-     * Get role
+     * Get pin
      *
      * @return int
      */
