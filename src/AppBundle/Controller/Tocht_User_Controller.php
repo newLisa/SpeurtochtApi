@@ -41,6 +41,44 @@ class Tocht_User_Controller extends FOSRestController
 	}
 
 	/**
+	* @Rest\Get("/koppeltochtuser/activetochten/{id}")
+	*/
+	public function activeTochtAction($id)
+	{
+		$records = $this->getDoctrine()->getRepository('AppBundle:Koppel_tocht_user')->findAll();
+	 	if ($records === null) 
+	 	{
+			return new View("records not found", Response::HTTP_NOT_FOUND);
+	    }
+	   
+	    $em = $this->getDoctrine()->getManager();
+	    $qb = $em->createQueryBuilder();
+
+	    $qb->select('k')
+	   ->from('AppBundle:Koppel_tocht_user', 'k')
+	   ->where('k.userId = :id')
+	   ->setParameter('id', $id);
+
+	   $query = $qb->getQuery();
+	   $results = $query->getResult();
+
+	   $activeTochtIds = array();
+	   foreach ($results as $result) 
+	   {
+	   	  $activeTochtIds[] = $result->getTochtId();
+	   }
+
+	   $tochtRepository = $this->getDoctrine()->getRepository('AppBundle:Speurtocht');
+
+    	$tochtQuery = $tochtRepository->createQueryBuilder('s');
+    	$tochtQuery->where($tochtQuery->expr()->in("s.id", $activeTochtIds));
+
+    	$tochtResults = $tochtQuery->getQuery()->getResult();
+	   
+	 return $tochtResults;
+	}
+
+	/**
 	* @Rest\Post("/koppeltochtuser/")
 	*/
 	public function postAction(Request $request)
@@ -48,18 +86,16 @@ class Tocht_User_Controller extends FOSRestController
 		$data = new Koppel_tocht_user;
 		$tocht_id = $request->get('tocht_id');
 		$user_id = $request->get('user_id');
-		$started_bool = $request->get('started_bool');
-		$finished_bool = $request->get('finished_bool');
 
-		if(empty($tocht_id) || empty($user_id) || empty($started_bool) || empty($finished_bool))
+		if(empty($tocht_id) || empty($user_id))
 		{
 			return new View("NULL VALUES ARE NOT ALLOWED", Response::HTTP_NOT_ACCEPTABLE); 
 		}
 
 		$data->setTochtId($tocht_id);
 		$data->setUserId($user_id);
-		$data->setStartedBool($started_bool);
-		$data->setFinishedBool($finished_bool);
+		$data->setStartedBool(1);
+		$data->setFinishedBool(0);
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($data);
 		$em->flush();

@@ -20,7 +20,7 @@ class MarkerController extends FOSRestController
       $restresult = $this->getDoctrine()->getRepository('AppBundle:Marker')->findAll();
         if ($restresult === null) 
         {
-          return new View("there are no markers exist", Response::HTTP_NOT_FOUND);
+          return new View("no markers found", Response::HTTP_NOT_FOUND);
         
     	}
         return $restresult;
