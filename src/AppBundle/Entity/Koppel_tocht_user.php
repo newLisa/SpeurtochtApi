@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Speurtocht;
 
 /**
  * Koppel_tocht_user
@@ -48,6 +49,12 @@ class Koppel_tocht_user
      * @ORM\Column(name="finished_bool", type="boolean", options={"default":false})
      */
     private $finishedBool;
+
+    private $user;
+
+    private $quest;
+
+
 
 
     /**
@@ -154,6 +161,30 @@ class Koppel_tocht_user
     public function getFinishedBool()
     {
         return $this->finishedBool;
+    }
+
+    public function setQuest($questArray)
+    {
+        $this->quest = $questArray;
+
+        return $this;
+    }
+
+    public function getQuest()
+    {
+        return $this->quest;
+    }
+
+    public function setUser($userArray)
+    {
+        $this->user = $userArray;
+
+        return $this;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
     }
 }
 

@@ -18,13 +18,22 @@ class Tocht_User_Controller extends FOSRestController
     public function getAction()
     {
       $restresult = $this->getDoctrine()->getRepository('AppBundle:Koppel_tocht_user')->findAll();
-      $restObj = json_decode($json);
-      var_dump($restObj);
-        // if ($restresult === null) 
-        // {
-        //   return new View("there are no records to display.", Response::HTTP_NOT_FOUND);
-        // }
-        // return $restresult;
+      //var_dump($restresult);
+
+      foreach ($restresult as $value) {
+      	$questId = $value->getTochtId();
+      	$userId = $value->getUserId();
+      	$questResult = $this->getDoctrine()->getRepository('AppBundle:Speurtocht')->findById($questId);
+      	$userResult = $this->getDoctrine()->getRepository('AppBundle:User')->findById($userId);
+      	$value->setQuest($questResult);
+      	$value->setUser($userResult);
+      }
+
+        if ($restresult === null) 
+        {
+          return new View("there are no records to display.", Response::HTTP_NOT_FOUND);
+        }
+        return $restresult;
     }
 
 	/**
@@ -33,12 +42,20 @@ class Tocht_User_Controller extends FOSRestController
 	public function idAction($id)
 	{
 		$singleresult = $this->getDoctrine()->getRepository('AppBundle:Koppel_tocht_user')->find($id);
+      	$questId = $singleresult->getTochtId();
+      	$userId = $singleresult->getUserId();
+      	$questResult = $this->getDoctrine()->getRepository('AppBundle:Speurtocht')->findById($questId);
+      	$userResult = $this->getDoctrine()->getRepository('AppBundle:User')->findById($userId);
+      	$singleresult->setQuest($questResult);
+      	$singleresult->setUser($userResult);
 	 	if ($singleresult === null) 
 	 	{
 			return new View("record not found", Response::HTTP_NOT_FOUND);
 	    }
 	 return $singleresult;
 	}
+
+	
 
 	/**
 	* @Rest\Get("/koppeltochtuser/activetochten/{id}")
