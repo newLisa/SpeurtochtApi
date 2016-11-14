@@ -31,9 +31,37 @@ class Vraag
     /**
      * @var string
      *
-     * @ORM\Column(name="answer_id", type="string", length=255)
+     * @ORM\Column(name="answer_1", type="string", length=255)
      */
-    private $antwoord;
+    private $answer_1;
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="answer_2", type="string", length=255)
+     */
+    private $answer_2;
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="answer_3", type="string", length=255)
+     */
+    private $answer_3;
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="answer_4", type="string", length=255)
+     */
+    private $answer_4;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="correct_answer", type="string", length=255)
+     */
+    private $correct_answer;
 
     /**
      * @var int
@@ -77,27 +105,123 @@ class Vraag
     }
 
     /**
-     * Set antwoord
+     * Set answer_1
      *
-     * @param string $antwoord
+     * @param string $answer_1
      *
      * @return Vraag
      */
-    public function setAntwoord($antwoord)
+    public function setAnswer_1($answer_1)
     {
-        $this->antwoord = $antwoord;
+        $this->answer_1 = $answer_1;
 
         return $this;
     }
 
     /**
-     * Get antwoord
+     * Get answer_1
      *
      * @return string
      */
-    public function getAntwoord()
+    public function getAnswer_1()
     {
-        return $this->antwoord;
+        return $this->answer_1;
+    }
+
+    /**
+     * Set answer_2
+     *
+     * @param string $answer_2
+     *
+     * @return Vraag
+     */
+    public function setAnswer_2($answer_2)
+    {
+        $this->answer_2 = $answer_2;
+
+        return $this;
+    }
+
+    /**
+     * Get answer_2
+     *
+     * @return string
+     */
+    public function getAnswer_2()
+    {
+        return $this->answer_2;
+    }
+
+     /**
+     * Set answer_2
+     *
+     * @param string $answer_2
+     *
+     * @return Vraag
+     */
+    public function setAnswer_3($answer_3)
+    {
+        $this->answer_3 = $answer_3;
+
+        return $this;
+    }
+
+    /**
+     * Get answer_3
+     *
+     * @return string
+     */
+    public function getAnswer_3()
+    {
+        return $this->answer_3;
+    }
+
+     /**
+     * Set answer_2
+     *
+     * @param string $answer_2
+     *
+     * @return Vraag
+     */
+    public function setAnswer_4($answer_4)
+    {
+        $this->answer_4 = $answer_4;
+
+        return $this;
+    }
+
+    /**
+     * Get answer_4
+     *
+     * @return string
+     */
+    public function getAnswer_4()
+    {
+        return $this->answer_4;
+    }
+
+    /**
+     * Set correct_answer
+     *
+     * @param string $correct_answer
+     *
+     * @return Vraag
+     */
+    public function setCorrect_Answer($correct_answer)
+    {
+        $this->correct_answer = $correct_answer;
+
+        return $this;
+    }
+
+    /**
+     * Get correct_answer
+     *
+     * @return string
+     */
+    public function getCorrect_Answer()
+    {
+        return $this->correct_answer;
     }
 
     /**
