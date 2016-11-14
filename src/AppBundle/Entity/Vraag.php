@@ -31,7 +31,7 @@ class Vraag
     /**
      * @var string
      *
-     * @ORM\Column(name="antwoord", type="string", length=255)
+     * @ORM\Column(name="answer_id", type="string", length=255)
      */
     private $antwoord;
 
@@ -41,14 +41,6 @@ class Vraag
      * @ORM\Column(name="punten", type="integer")
      */
     private $punten;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="voltooid", type="boolean")
-     */
-    private $voltooid;
-
 
     /**
      * Get id
@@ -130,30 +122,6 @@ class Vraag
     public function getPunten()
     {
         return $this->punten;
-    }
-
-    /**
-     * Set voltooid
-     *
-     * @param boolean $voltooid
-     *
-     * @return Vraag
-     */
-    public function setVoltooid($voltooid)
-    {
-        $this->voltooid = $voltooid;
-
-        return $this;
-    }
-
-    /**
-     * Get voltooid
-     *
-     * @return bool
-     */
-    public function getVoltooid()
-    {
-        return $this->voltooid;
     }
 }
 
