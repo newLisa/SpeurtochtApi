@@ -66,61 +66,58 @@ class VraagController extends FOSRestController
 		return new View("Question added succesfully", Response::HTTP_OK);
 	}
 	
-	/*
-		//TODO Put does not work yet
+
+	/**
+	* @Rest\Put("/vraag/{id}")
 	*/
+	public function updateAction($id,Request $request)
+	{ 
+		$data = new Vraag;
+		$question = $request->get('vraag');
+		$answer = $request->get('answer_id');
+		$points = $request->get('punten');
+		$completed = $request->get('voltooid');
 
-	// /**
-	// * @Rest\Put("/vraag/{id}")
-	// */
-	// public function updateAction($id,Request $request)
-	// { 
-	// 	$data = new Vraag;
-	// 	$question = $request->get('vraag');
-	// 	$answer = $request->get('antwoord');
-	// 	$points = $request->get('punten');
-	// 	$completed = $request->get('voltooid');
+		$sn = $this->getDoctrine()->getManager();
+		$question = $this->getDoctrine()->getRepository('AppBundle:Vraag')->find($id);
+		if (empty($question)) 
+		{
+			return new View("Question not found", Response::HTTP_NOT_FOUND);
+		}
+		else
+		{
+			if (empty($question) && empty($answer) && empty($points) && empty($completed)) 
+			{
+				return new View("all values cannot be empty", Response::HTTP_NOT_ACCEPTABLE); 
+			}
 
-	// 	$sn = $this->getDoctrine()->getManager();
-	// 	$question = $this->getDoctrine()->getRepository('AppBundle:Vraag')->find($id);
-	// 	if (empty($question)) 
-	// 	{
-	// 		return new View("Question not found", Response::HTTP_NOT_FOUND);
-	// 	}
-	// 	else
-	// 	{
-	// 		if (empty($question) && empty($answer) && empty($points) && empty($completed)) 
-	// 		{
-	// 			return new View("all values cannot be empty", Response::HTTP_NOT_ACCEPTABLE); 
-	// 		}
+			if (!empty($question)) 
+			{
+				$question->SetVraag($question);
+				$sn->flush();
+			}
 
-	// 		if (!empty($question)) 
-	// 		{
-	// 			$question->SetVraag($question);
-	// 			$sn->flush();
-	// 		}
+			if (!empty($answer)) 
+			{
+				$question->SetAntwoord($answer);
+				$sn->flush();
+			}
 
-	// 		if (!empty($answer)) 
-	// 		{
-	// 			$question->SetAntwoord($answer);
-	// 			$sn->flush();
-	// 		}
+			if (!empty($points)) 
+			{
+				$question->SetPunten($points);
+				$sn->flush();
+			}
 
-	// 		if (!empty($points)) 
-	// 		{
-	// 			$question->SetPunten($points);
-	// 			$sn->flush();
-	// 		}
+			if (!empty($completed)) 
+			{
+				$question->SetVoltooid($completed);
+				$sn->flush();
+			}
 
-	// 		if (!empty($completed)) 
-	// 		{
-	// 			$question->SetVoltooid($completed);
-	// 			$sn->flush();
-	// 		}
-
-	// 		return new View('Question updated succesfully', Response::HTTP_OK);
-	// 	} 
-	// }
+			return new View('Question updated succesfully', Response::HTTP_OK);
+		} 
+	}
 
 	/**
 	* @Rest\Delete("/vraag/{id}")

@@ -49,6 +49,13 @@ class Marker
      */
     private $info;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="vraag_id", type="integer")
+     */
+    private $question_id;
+
 
 
 
@@ -156,5 +163,29 @@ class Marker
     public function getInfo()
     {
         return $this->info;
+    }
+
+    /**
+     * Set question_id
+     *
+     * @param integer $question_id
+     *
+     * @return integer
+     */
+    public function setQuestionId($question_id)
+    {
+        $this->question_id = $question_id;
+
+        return $this;
+    }
+
+    /**
+     * Get question_id
+     *
+     * @return integer
+     */
+    public function getQuestionId()
+    {
+        return $this->question_id;
     }
 }
