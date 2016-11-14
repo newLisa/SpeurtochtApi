@@ -55,7 +55,7 @@ class Tocht_User_Controller extends FOSRestController
 	 return $singleresult;
 	}
 
-	
+
 
 	/**
 	* @Rest\Get("/koppeltochtuser/activetochten/{id}")
@@ -71,14 +71,11 @@ class Tocht_User_Controller extends FOSRestController
 	    $em = $this->getDoctrine()->getManager();
 	    $qb = $em->createQueryBuilder();
 
-	    $qb->select('k')
-	   ->from('AppBundle:Koppel_tocht_user', 'k')
-	   ->where('k.userId = :id')
-	   ->setParameter('id', $id);
-
-	   $query = $qb->getQuery();
-	   $results = $query->getResult();
-
+	    $results = $this->getDoctrine()->getRepository('AppBundle:Koppel_tocht_user')->findByUserId($id);
+	    if (empty($results)) 
+	 	{
+			return new View("user not found", Response::HTTP_NOT_FOUND);
+	    }
 	   $activeTochtIds = array();
 	   foreach ($results as $result) 
 	   {
@@ -91,6 +88,10 @@ class Tocht_User_Controller extends FOSRestController
     	$tochtQuery->where($tochtQuery->expr()->in("s.id", $activeTochtIds));
 
     	$tochtResults = $tochtQuery->getQuery()->getResult();
+    	if ($tochtResults === null) 
+	 	{
+			return new View("records not found", Response::HTTP_NOT_FOUND);
+	    }
 	   
 	 return $tochtResults;
 	}
