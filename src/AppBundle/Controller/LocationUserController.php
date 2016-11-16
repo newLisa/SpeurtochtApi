@@ -38,12 +38,22 @@ class LocationUserController extends FOSRestController
 	*/
 	public function idAction($id)
 	{
-		$singleresult = $this->getDoctrine()->getRepository('AppBundle:LocationUser')->find($id);
-	 	if ($singleresult === null) 
+		$restresult = $this->getDoctrine()->getRepository('AppBundle:LocationUser')->findByUserId($id);
+	 	if ($restresult === null) 
 	 	{
 			return new View("highscore not found", Response::HTTP_NOT_FOUND);
 	    }
-	 return $singleresult;
+
+	    foreach ($restresult as $value) {
+      	$locationId = $value->getLocationId();
+      	$userId = $value->getUserId();
+      	$locationResult = $this->getDoctrine()->getRepository('AppBundle:Marker')->findById($locationId);
+      	$userResult = $this->getDoctrine()->getRepository('AppBundle:User')->findById($userId);
+      	$value->setLocation($locationResult);
+      	$value->setUser($userResult);
+      }
+
+	 return $restresult;
 	}
 
 	/**
