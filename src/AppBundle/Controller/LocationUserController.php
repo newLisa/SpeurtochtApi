@@ -55,8 +55,12 @@ class LocationUserController extends FOSRestController
 		$location_id = $request->get('locatie_id');
 		$user_id = $request->get('user_id');
 		$correct = $request->get('answered_correct');
+		if ($correct == 0) 
+		{
+			$correct = false;
+		}
 
-		if(empty($location_id) || empty($user_id) || empty($correct))
+		if(!isset($location_id) && !isset($user_id) && !isset($correct))
 		{
 			return new View("NULL VALUES ARE NOT ALLOWED", Response::HTTP_NOT_ACCEPTABLE); 
 		}
