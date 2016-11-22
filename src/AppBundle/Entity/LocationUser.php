@@ -36,6 +36,20 @@ class LocationUser
     private $userId;
 
      /**
+     * @var int
+     *
+     * @ORM\Column(name="quest_id", type="integer")
+     */
+    private $questId;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="answered", type="boolean")
+     */
+    private $answered;
+
+     /**
      * @var bool
      *
      * @ORM\Column(name="answered_correct", type="boolean")
@@ -45,6 +59,8 @@ class LocationUser
     private $user;
 
     private $location;
+
+    private $quest;
 
 
     /**
@@ -106,6 +122,30 @@ class LocationUser
     }
 
     /**
+     * Set questId
+     *
+     * @param integer $questId
+     *
+     * @return LocationUser
+     */
+    public function setQuestId($questId)
+    {
+        $this->questId = $questId;
+
+        return $this;
+    }
+
+    /**
+     * Get questId
+     *
+     * @return int
+     */
+    public function getQuestId()
+    {
+        return $this->questId;
+    }
+
+    /**
      * Set answered_correct
      *
      * @param boolean $answered_correct
@@ -128,7 +168,32 @@ class LocationUser
     {
         return $this->answered_correct;
     }
- public function setLocation($locationArray)
+
+    /**
+     * Set answered
+     *
+     * @param boolean $answered
+     *
+     * @return LocationUser
+     */
+    public function setAnswered($answered)
+    {
+        $this->answered = $answered;
+
+        return $this;
+    }
+
+    /**
+     * Get answered_correct
+     *
+     * @return boolean
+     */
+    public function getAnswered()
+    {
+        return $this->answered;
+    }
+
+    public function setLocation($locationArray)
     {
         $this->location = $locationArray;
 
@@ -150,6 +215,18 @@ class LocationUser
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function setQuest($questArray)
+    {
+        $this->quest = $questArray;
+
+        return $this;
+    }
+
+    public function getQuest()
+    {
+        return $this->quest;
     }
 }
 
