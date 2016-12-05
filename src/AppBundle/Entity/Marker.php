@@ -63,6 +63,13 @@ class Marker
      */
     private $isQr;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isVisible", type="boolean")
+     */
+    private $isVisible;
+
 
 
 
@@ -218,5 +225,28 @@ class Marker
     public function getIsQr()
     {
         return $this->isQr;
+    
+    /**
+     * Set isVisible
+     *
+     * @param boolean $isVisible
+     *
+     * @return boolean
+     */
+    public function setIsVisible($isVisible)
+    {
+        $this->isVisible = $isVisible;
+
+        return $this;
+    }
+
+    /**
+     * Get isVisible
+     *
+     * @return integer
+     */
+    public function getIsVisible()
+    {
+        return $this->isVisible;
     }
 }
