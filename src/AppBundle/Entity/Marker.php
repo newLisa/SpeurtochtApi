@@ -56,6 +56,13 @@ class Marker
      */
     private $question_id;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isQr", type="boolean")
+     */
+    private $isQr;
+
 
 
 
@@ -187,5 +194,29 @@ class Marker
     public function getQuestionId()
     {
         return $this->question_id;
+    }
+
+    /**
+     * Set isQr
+     *
+     * @param boolean $isQr
+     *
+     * @return boolean
+     */
+    public function setIsQr($isQr)
+    {
+        $this->isQr = $isQr;
+
+        return $this;
+    }
+
+    /**
+     * Get isQr
+     *
+     * @return integer
+     */
+    public function getIsQr()
+    {
+        return $this->isQr;
     }
 }
