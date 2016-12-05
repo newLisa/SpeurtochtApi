@@ -35,6 +35,13 @@ class Highscore
      */
     private $userId;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="quest_id", type="integer")
+     */
+    private $questId;
+
 
     /**
      * Get id
@@ -92,6 +99,30 @@ class Highscore
     public function getUserId()
     {
         return $this->userId;
+    }
+
+        /**
+     * Set questId
+     *
+     * @param integer $questId
+     *
+     * @return Highscore
+     */
+    public function setQuestId($questId)
+    {
+        $this->questId = $questId;
+
+        return $this;
+    }
+
+    /**
+     * Get questId
+     *
+     * @return int
+     */
+    public function getQuestId()
+    {
+        return $this->questId;
     }
 }
 

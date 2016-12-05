@@ -225,7 +225,7 @@ class Marker
     public function getIsQr()
     {
         return $this->isQr;
-    
+    }
     /**
      * Set isVisible
      *
