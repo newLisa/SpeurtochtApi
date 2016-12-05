@@ -22,10 +22,13 @@ class LocationUserController extends FOSRestController
       foreach ($restresult as $value) {
       	$locationId = $value->getLocationId();
       	$userId = $value->getUserId();
+      	$questId = $value->getQuestId();
       	$locationResult = $this->getDoctrine()->getRepository('AppBundle:Marker')->findById($locationId);
       	$userResult = $this->getDoctrine()->getRepository('AppBundle:User')->findById($userId);
+      	$questResult = $this->getDoctrine()->getRepository('AppBundle:Speurtocht')->findById($questId);
       	$value->setLocation($locationResult);
       	$value->setUser($userResult);
+      	$value->setQuest($questResult);
       }
         if ($restresult === null) {
           return new View("there are no highscores to display.", Response::HTTP_NOT_FOUND);
@@ -47,10 +50,39 @@ class LocationUserController extends FOSRestController
 	    foreach ($restresult as $value) {
       	$locationId = $value->getLocationId();
       	$userId = $value->getUserId();
+      	$questId = $value->getQuestId();
       	$locationResult = $this->getDoctrine()->getRepository('AppBundle:Marker')->findById($locationId);
       	$userResult = $this->getDoctrine()->getRepository('AppBundle:User')->findById($userId);
+      	$questResult = $this->getDoctrine()->getRepository('AppBundle:Speurtocht')->findById($questId);
       	$value->setLocation($locationResult);
       	$value->setUser($userResult);
+      	$value->setQuest($questResult);
+      }
+
+	 return $restresult;
+	}
+
+	/**
+	* @Rest\Get("/locationuser/{userId}/{questId}")
+	*/
+	public function UserQuestIdAction($userId, $questId)
+	{
+		$restresult = $this->getDoctrine()->getRepository('AppBundle:LocationUser')->findBy(array('userId' => $userId, 'questId' => $questId));
+	 	if ($restresult === null) 
+	 	{
+			return new View("highscore not found", Response::HTTP_NOT_FOUND);
+	    }
+
+	    foreach ($restresult as $value) {
+      	$locationId = $value->getLocationId();
+      	$userId = $value->getUserId();
+      	$questId = $value->getQuestId();
+      	$locationResult = $this->getDoctrine()->getRepository('AppBundle:Marker')->findById($locationId);
+      	$userResult = $this->getDoctrine()->getRepository('AppBundle:User')->findById($userId);
+      	$questResult = $this->getDoctrine()->getRepository('AppBundle:Speurtocht')->findById($questId);
+      	$value->setLocation($locationResult);
+      	$value->setUser($userResult);
+      	$value->setQuest($questResult);
       }
 
 	 return $restresult;
@@ -64,13 +96,21 @@ class LocationUserController extends FOSRestController
 		$data = new LocationUser;
 		$location_id = $request->get('locatie_id');
 		$user_id = $request->get('user_id');
+		$quest_id = $request->get('quest_id');
 		$correct = $request->get('answered_correct');
+		$answered = $request->get('answered');
+
 		if ($correct == 0) 
 		{
 			$correct = false;
 		}
 
-		if(!isset($location_id) && !isset($user_id) && !isset($correct))
+		if ($answered == 0)
+		 {
+			$answered = false;
+		}
+
+		if(!isset($location_id) && !isset($user_id) && !isset($correct) && !isset($quest_id) && !isset($answered))
 		{
 			return new View("NULL VALUES ARE NOT ALLOWED", Response::HTTP_NOT_ACCEPTABLE); 
 		}
@@ -78,6 +118,8 @@ class LocationUserController extends FOSRestController
 		$data->setLocationId($location_id);
 		$data->setUserId($user_id);
 		$data->setAnsweredCorrect($correct);
+		$data->setQuestId($quest_id);
+		$data->setAnswered($answered);
 
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($data);
