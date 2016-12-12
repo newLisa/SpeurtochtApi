@@ -48,7 +48,7 @@ class Highscore
      * @ORM\Column(name="markers_completed", type="integer")
      */
     private $markersCompleted;
-    
+
     private $user;
 
 
@@ -163,7 +163,7 @@ class Highscore
         return $this;
     }
 
-     * Get user
+     /** Get user
      *
      * @return User
      */
