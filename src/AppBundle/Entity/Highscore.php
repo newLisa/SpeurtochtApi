@@ -42,16 +42,15 @@ class Highscore
      */
     private $questId;
 
-<<<<<<< HEAD
      /**
      * @var int
      *
      * @ORM\Column(name="markers_completed", type="integer")
      */
     private $markersCompleted;
-=======
+    
     private $user;
->>>>>>> 164c97f49cde8a6de917c302edee205d56b73816
+
 
 
     /**
@@ -136,8 +135,7 @@ class Highscore
         return $this->questId;
     }
 
-<<<<<<< HEAD
-            /**
+    /**
      * Set markersCompleted
      *
      * @param integer $markersCompleted
@@ -147,19 +145,9 @@ class Highscore
     public function setMarkersCompleted($markersCompleted)
     {
         $this->markersCompleted = $markersCompleted;
-=======
-
-
-    public function setUser($user)
-    {
-        $this->user = $user;
->>>>>>> 164c97f49cde8a6de917c302edee205d56b73816
-
-        return $this;
     }
 
     /**
-<<<<<<< HEAD
      * Get markersCompleted
      *
      * @return int
@@ -168,7 +156,13 @@ class Highscore
     {
         return $this->markersCompleted;
     }
-=======
+
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
      * Get user
      *
      * @return User
@@ -177,8 +171,5 @@ class Highscore
     {
         return $this->user;
     }
-
-
->>>>>>> 164c97f49cde8a6de917c302edee205d56b73816
 }
 
