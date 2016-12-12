@@ -48,7 +48,7 @@ class VraagController extends FOSRestController
 		$data = new Vraag;
 		$question = $request->get('vraag');
 		$answer = $request->get('antwoord');
-		$points = $request->get('punten');
+		$points = $request->get('points');
 		$completed = $request->get('voltooid');
 
 		if (empty($question) || empty($answer) || empty($points)|| empty($completed)) 

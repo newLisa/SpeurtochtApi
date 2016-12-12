@@ -42,6 +42,8 @@ class Highscore
      */
     private $questId;
 
+    private $user;
+
 
     /**
      * Get id
@@ -116,13 +118,34 @@ class Highscore
     }
 
     /**
-     * Get questId
+     * Get user
      *
-     * @return int
+     * @return User
      */
     public function getQuestId()
     {
         return $this->questId;
     }
+
+
+
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+
 }
 

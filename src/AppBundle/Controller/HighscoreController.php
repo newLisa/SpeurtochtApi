@@ -17,10 +17,21 @@ class HighscoreController extends FOSRestController
      */
     public function getAction()
     {
-      $restresult = $this->getDoctrine()->getRepository('AppBundle:Highscore')->findAll();
-        if ($restresult === null) {
-          return new View("there are no highscores to display.", Response::HTTP_NOT_FOUND);
-     }
+		$repository = $this->getDoctrine()->getRepository('AppBundle:Highscore');
+		$query = $repository->createQueryBuilder('h')->orderBy('h.score', 'DESC')->getQuery();
+		$restresult = $query->getResult();
+		if ($restresult === null) {
+			return new View("there are no highscores to display.", Response::HTTP_NOT_FOUND);
+		}
+
+
+		foreach ($restresult as $value) {
+	      	$userId = $value->getUserId();
+	      	$userResult = $this->getDoctrine()->getRepository('AppBundle:User')->findById($userId);
+	      	$value->setUser($userResult);
+	    }
+
+
         return $restresult;
     }
 
@@ -29,10 +40,19 @@ class HighscoreController extends FOSRestController
      */
     public function getQuestAction($quest_id)
     {
-      $restresult = $this->getDoctrine()->getRepository('AppBundle:Highscore')->findByQuestId($quest_id);
-        if ($restresult === null) {
-          return new View("there are no highscores to display.", Response::HTTP_NOT_FOUND);
-     }
+    	$restresult = $this->getDoctrine()->getRepository('AppBundle:Highscore')->findByQuestId($quest_id);
+        if ($restresult === null) 
+        {
+        	return new View("there are no highscores to display.", Response::HTTP_NOT_FOUND);
+     	}
+
+     	foreach ($restresult as $value) 
+     	{
+	      	$userId = $value->getUserId();
+	      	$userResult = $this->getDoctrine()->getRepository('AppBundle:User')->findById($userId);
+	      	$value->setUser($userResult);
+	    }
+
         return $restresult;
     }
 
@@ -41,12 +61,18 @@ class HighscoreController extends FOSRestController
 	*/
 	public function getQuestUserAction($quest_id, $user_id)
 	{
-		$restResult = $this->getDoctrine()->getRepository('AppBundle:Highscore')->findBy(array('questId' => $quest_id, 'userId' => $user_id));
-	 	if ($restResult === null) 
+		$restresult = $this->getDoctrine()->getRepository('AppBundle:Highscore')->findBy(array('questId' => $quest_id, 'userId' => $user_id));
+	 	if ($restresult === null) 
 	 	{
 			return new View("highscore not found", Response::HTTP_NOT_FOUND);
 	    }
-	 return $restResult;
+	    foreach ($restresult as $value) 
+     	{
+	      	$userId = $value->getUserId();
+	      	$userResult = $this->getDoctrine()->getRepository('AppBundle:User')->findById($userId);
+	      	$value->setUser($userResult);
+	    }
+		return $restresult;
 	}
 
 	/**
@@ -55,21 +81,35 @@ class HighscoreController extends FOSRestController
 	public function postAction(Request $request)
 	{
 		$data = new Highscore;
+		$em = $this->getDoctrine()->getManager();
 		$score = $request->get('score');
 		$user_id = $request->get('user_id');
+		$quest_id = $request->get('quest_id');
 
-		if(empty($score) || empty($user_id))
+		file_put_contents("test.txt", $request);
+
+		if(empty($score) || empty($user_id) || empty($quest_id))
 		{
 			return new View("NULL VALUES ARE NOT ALLOWED", Response::HTTP_NOT_ACCEPTABLE); 
 		}
-
-		$data->setScore($score);
-		$data->setUserId($user_id);
-		$em = $this->getDoctrine()->getManager();
-		$em->persist($data);
-		$em->flush();
-
-	 return new View("Highscore Added Successfully", Response::HTTP_OK);
+		$restResult = $this->getDoctrine()->getRepository('AppBundle:Highscore')->findOneBy(array('questId' => $quest_id, 'userId' => $user_id));
+		if ($restResult === null) {
+			$data->setScore($score);
+			$data->setUserId($user_id);
+			$data->setQuestId($quest_id);
+			
+			$em->persist($data);
+			$em->flush();
+			return new View("Highscore Added Successfully", Response::HTTP_OK);
+		}
+		else
+		{
+			$restResult->setScore($score);
+			$em->flush();
+			return new View("Highscore Updated Successfully", Response::HTTP_OK);
+		}
+		return new View("Highscore Fucked Up Successfully", Response::HTTP_NOT_ACCEPTABLE);
+	 
 	}
 
 
