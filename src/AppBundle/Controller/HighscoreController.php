@@ -57,14 +57,16 @@ class HighscoreController extends FOSRestController
 		$data = new Highscore;
 		$score = $request->get('score');
 		$user_id = $request->get('user_id');
+		$markersCompleted = $request->get('markers_completed');
 
-		if(empty($score) || empty($user_id))
+		if(empty($score) || empty($user_id) || empty($markersCompleted))
 		{
 			return new View("NULL VALUES ARE NOT ALLOWED", Response::HTTP_NOT_ACCEPTABLE); 
 		}
 
 		$data->setScore($score);
 		$data->setUserId($user_id);
+		$dta->setMarkersCompleted($markersCompleted);
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($data);
 		$em->flush();

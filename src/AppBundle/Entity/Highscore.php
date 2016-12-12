@@ -42,6 +42,13 @@ class Highscore
      */
     private $questId;
 
+     /**
+     * @var int
+     *
+     * @ORM\Column(name="markers_completed", type="integer")
+     */
+    private $markersCompleted;
+
 
     /**
      * Get id
@@ -123,6 +130,30 @@ class Highscore
     public function getQuestId()
     {
         return $this->questId;
+    }
+
+            /**
+     * Set markersCompleted
+     *
+     * @param integer $markersCompleted
+     *
+     * @return Highscore
+     */
+    public function setMarkersCompleted($markersCompleted)
+    {
+        $this->markersCompleted = $markersCompleted;
+
+        return $this;
+    }
+
+    /**
+     * Get markersCompleted
+     *
+     * @return int
+     */
+    public function getMarkersCompleted()
+    {
+        return $this->markersCompleted;
     }
 }
 
