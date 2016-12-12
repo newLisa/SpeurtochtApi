@@ -66,9 +66,9 @@ class Vraag
     /**
      * @var int
      *
-     * @ORM\Column(name="punten", type="integer")
+     * @ORM\Column(name="points", type="integer")
      */
-    private $punten;
+    private $points;
 
     /**
      * Get id
@@ -225,27 +225,27 @@ class Vraag
     }
 
     /**
-     * Set punten
+     * Set points
      *
-     * @param integer $punten
+     * @param integer $points
      *
      * @return Vraag
      */
-    public function setPunten($punten)
+    public function setPoints($points)
     {
-        $this->punten = $punten;
+        $this->points = $points;
 
         return $this;
     }
 
     /**
-     * Get punten
+     * Get points
      *
      * @return int
      */
-    public function getPunten()
+    public function getPoints()
     {
-        return $this->punten;
+        return $this->points;
     }
 }
 
