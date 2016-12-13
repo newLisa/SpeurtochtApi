@@ -24,13 +24,11 @@ class HighscoreController extends FOSRestController
 			return new View("there are no highscores to display.", Response::HTTP_NOT_FOUND);
 		}
 
-
 		foreach ($restresult as $value) {
 	      	$userId = $value->getUserId();
 	      	$userResult = $this->getDoctrine()->getRepository('AppBundle:User')->findById($userId);
 	      	$value->setUser($userResult);
 	    }
-
 
         return $restresult;
     }
@@ -40,7 +38,14 @@ class HighscoreController extends FOSRestController
      */
     public function getQuestAction($quest_id)
     {
-    	$restresult = $this->getDoctrine()->getRepository('AppBundle:Highscore')->findByQuestId($quest_id);
+    	$repository = $this->getDoctrine()->getRepository('AppBundle:Highscore');
+    	$query = $repository->createQueryBuilder('h')
+    	->where('h.questId = :questId')
+    	->setParameter('questId',$quest_id)
+    	->orderBy('h.score', 'DESC')
+    	->getQuery();
+
+        $restresult = $query->getResult();
         if ($restresult === null) 
         {
         	return new View("there are no highscores to display.", Response::HTTP_NOT_FOUND);
