@@ -20,11 +20,13 @@ class HighscoreController extends FOSRestController
 		$repository = $this->getDoctrine()->getRepository('AppBundle:Highscore');
 		$query = $repository->createQueryBuilder('h')->orderBy('h.score', 'DESC')->getQuery();
 		$restresult = $query->getResult();
-		if ($restresult === null) {
+		if ($restresult === null)
+		 {
 			return new View("there are no highscores to display.", Response::HTTP_NOT_FOUND);
 		}
 
-		foreach ($restresult as $value) {
+		foreach ($restresult as $value) 
+		{
 	      	$userId = $value->getUserId();
 	      	$userResult = $this->getDoctrine()->getRepository('AppBundle:User')->findById($userId);
 	      	$value->setUser($userResult);
@@ -159,7 +161,7 @@ class HighscoreController extends FOSRestController
 	}
 
 	/**
-	* @Rest\Delete("/highscores/{id}")
+	* @Rest\Post("/highscores/delete/{id}")
 	*/
 	public function deleteAction($id)
 	{

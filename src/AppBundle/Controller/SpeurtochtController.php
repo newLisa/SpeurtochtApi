@@ -58,6 +58,7 @@ class SpeurtochtController extends FOSRestController
 		$data->setNaam($name);
 		$data->setOpleiding($course);
 		$data->setInformatie($info);
+		$data->setIsDeleted(0);
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($data);
 		$em->flush();
@@ -66,7 +67,7 @@ class SpeurtochtController extends FOSRestController
 	}
 
 	/**
-	* @Rest\Put("/speurtocht/{id}")
+	* @Rest\Post("/speurtocht/put/{id}")
 	*/
 	public function updateAction($id,Request $request)
 	{ 
@@ -74,6 +75,7 @@ class SpeurtochtController extends FOSRestController
 		$name = $request->get('naam');
 		$course = $request->get('opleiding');
 		$info = $request->get('informatie');
+		$isDeleted = $request->get('isDeleted');
 
 		$sn = $this->getDoctrine()->getManager();
 		$quest = $this->getDoctrine()->getRepository('AppBundle:Speurtocht')->find($id);
@@ -83,26 +85,32 @@ class SpeurtochtController extends FOSRestController
 		}
 		else
 		{
-			if (empty($name) && empty($info) && empty($course)) 
+			if (empty($name) && empty($info) && empty($course) && empty($isDeleted)) 
 			{
 				return new View("all values cannot be empty", Response::HTTP_NOT_ACCEPTABLE); 
 			}
 
 			if (!empty($name)) 
 			{
-				$quest->SetNaam($name);
+				$quest->setNaam($name);
 				$sn->flush();
 			}
 
 			if (!empty($course)) 
 			{
-				$quest->SetOpleiding($course);
+				$quest->setOpleiding($course);
 				$sn->flush();
 			}
 
 			if (!empty($info)) 
 			{
-				$quest->SetInformatie($info);
+				$quest->setInformatie($info);
+				$sn->flush();
+			}
+
+			if (!empty($isDeleted)) 
+			{
+				$quest->setIsDeleted($isDeleted);
 				$sn->flush();
 			}
 
@@ -111,7 +119,7 @@ class SpeurtochtController extends FOSRestController
 	}
 
 	/**
-	* @Rest\Delete("/speurtocht/{id}")
+	* @Rest\Post("/speurtocht/delete/{id}")
 	*/
 	public function deleteAction($id)
 	{
@@ -122,11 +130,32 @@ class SpeurtochtController extends FOSRestController
 		{
 			return new View("Speurtocht not found", Response::HTTP_NOT_FOUND);
 		}
-	else 
-	{
-		$sn->remove($quest);
-		$sn->flush();
+		else 
+		{
+			$quest->setIsDeleted(1);
+			$sn->flush();
+		}
+	
+	return new View("Speurtocht deleted successfully", Response::HTTP_OK);
 	}
+
+	/**
+	* @Rest\Post("/speurtocht/restore/{id}")
+	*/
+	public function restoreAction($id)
+	{
+		$data = new Speurtocht;
+		$sn = $this->getDoctrine()->getManager();
+		$quest = $this->getDoctrine()->getRepository('AppBundle:Speurtocht')->find($id);
+		if (empty($quest)) 
+		{
+			return new View("Speurtocht not found", Response::HTTP_NOT_FOUND);
+		}
+		else 
+		{
+			$quest->setIsDeleted(0);
+			$sn->flush();
+		}
 	
 	return new View("Speurtocht deleted successfully", Response::HTTP_OK);
 	}

@@ -103,7 +103,7 @@ class UserController extends FOSRestController
 	}
 
 	/**
-	* @Rest\Delete("/user/{id}")
+	* @Rest\Post("/user/delete/{id}")
 	*/
 	public function deleteAction($id)
 	{

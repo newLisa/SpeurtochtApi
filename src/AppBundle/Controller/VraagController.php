@@ -120,7 +120,7 @@ class VraagController extends FOSRestController
 	}
 
 	/**
-	* @Rest\Delete("/vraag/{id}")
+	* @Rest\Post("/vraag/delete/{id}")
 	*/
 	public function deleteAction($id)
 	{

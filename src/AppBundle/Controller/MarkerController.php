@@ -101,7 +101,7 @@ class MarkerController extends FOSRestController
 	}
 
 	/**
-	* @Rest\Delete("/marker/{id}")
+	* @Rest\Post("/marker/delete{id}")
 	*/
 	public function deleteAction($id)
 	{

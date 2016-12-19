@@ -42,6 +42,13 @@ class Speurtocht
      */
     private $informatie;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isDeleted", type="boolean")
+     */
+    private $isDeleted;
+
 
     /**
      * Get id
@@ -123,6 +130,30 @@ class Speurtocht
     public function getInformatie()
     {
         return $this->informatie;
+    }
+
+    /**
+     * Set isDeleted
+     *
+     * @param boolean $isDeleted
+     *
+     * @return boolean
+     */
+    public function setIsDeleted($isDeleted)
+    {
+        $this->isDeleted = $isDeleted;
+
+        return $this;
+    }
+
+    /**
+     * Get isDeleted
+     *
+     * @return integer
+     */
+    public function getIsDeleted()
+    {
+        return $this->isDeleted;
     }
 }
 
