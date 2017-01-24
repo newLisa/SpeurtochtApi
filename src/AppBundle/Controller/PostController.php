@@ -11,6 +11,7 @@ use FOS\RestBundle\View\View;
 use AppBundle\Entity\Speurtocht;
 use AppBundle\Entity\Marker;
 use AppBundle\Entity\Vraag;
+use AppBundle\Entity\Polygon;
 use AppBundle\Entity\Koppel_tocht_locatie;
 
 
@@ -39,14 +40,11 @@ class PostController extends FOSRestController
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($quest);
 		$em->flush();
-		$count = 0;
 		foreach ($requestJson['marker'] as $jsonMarker) {
 			$marker = new Marker;
 			$question = new Vraag;
 			$tochtLocatie = new Koppel_tocht_locatie;
 
-			$count++;
-			file_put_contents("nicotest" . $count . ".txt", $jsonMarker['questions']['question']);
 			$question->setVraag($jsonMarker['questions']['question']);
 			$question->setCorrect_Answer($jsonMarker['questions']['correctAnswer']);
 			$question->setPoints($jsonMarker['questions']['points']);
@@ -72,7 +70,25 @@ class PostController extends FOSRestController
 			$em->persist($tochtLocatie);
 			$em->flush();
 		}
-		
+		foreach ($requestJson['polygonMarkers'] as $polygonMarker) {
+			if ($this->getDoctrine()->getRepository('AppBundle:Polygon')->findBy(array('questId' => $quest->getId())) != null) {
+				$polygon = $this->getDoctrine()->getRepository('AppBundle:Polygon')->findBy(array('questId' => $quest->getId()));
+				foreach ($polygon as $removePoly) {
+				    $em->remove($removePoly);
+				    $em->flush();
+				}
+			}
+
+			foreach ($requestJson['polygonMarkers'] as $polygonMarker) {
+				$polygon = new Polygon;
+				$polygon->setQuestId($quest->getId());
+				$polygon->setLat($polygonMarker['lat']);
+				$polygon->setLng($polygonMarker['lng']);
+				$polygon->setOrderNumber($polygonMarker['orderNumber']);
+				$em->persist($polygon);
+				$em->flush();
+			}
+		}
 
 
 
