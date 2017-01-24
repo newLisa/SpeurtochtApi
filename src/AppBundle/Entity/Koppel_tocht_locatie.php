@@ -30,7 +30,7 @@ class Koppel_tocht_locatie
 
     /**
      * @var int
-     *
+     *z
      * @ORM\Column(name="locatie_id", type="integer")
      */
     private $locatieId;

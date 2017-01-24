@@ -24,12 +24,9 @@ class PostController extends FOSRestController
 	{
 
 		$requestJson = json_decode($request->getContent(), true);
-		file_put_contents("testrequest.txt", $requestJson);
+		
 		//dd($requestJson);
 		$quest = new Speurtocht;
-		$marker = new Marker;
-		$question = new Vraag;
-		$tochtLocatie = new Koppel_tocht_locatie;
 
 		if (empty($requestJson['quest']['name']) || empty($requestJson['quest']['course']) || empty($requestJson['quest']['info'])) 
 		{
@@ -42,8 +39,14 @@ class PostController extends FOSRestController
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($quest);
 		$em->flush();
+		$count = 0;
 		foreach ($requestJson['marker'] as $jsonMarker) {
+			$marker = new Marker;
+			$question = new Vraag;
+			$tochtLocatie = new Koppel_tocht_locatie;
 
+			$count++;
+			file_put_contents("nicotest" . $count . ".txt", $jsonMarker['questions']['question']);
 			$question->setVraag($jsonMarker['questions']['question']);
 			$question->setCorrect_Answer($jsonMarker['questions']['correctAnswer']);
 			$question->setPoints($jsonMarker['questions']['points']);
