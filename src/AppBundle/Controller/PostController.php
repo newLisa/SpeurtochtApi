@@ -17,9 +17,6 @@ use AppBundle\Entity\Koppel_tocht_locatie;
 
 class PostController extends FOSRestController
 {
-
-
-
 	/**
 	* @Rest\Post("/postQuest/")
 	*/
@@ -27,15 +24,17 @@ class PostController extends FOSRestController
 	{
 
 		$requestJson = json_decode($request->getContent(), true);
+		file_put_contents("testrequest.txt", $requestJson);
+		//dd($requestJson);
 		$quest = new Speurtocht;
 		$marker = new Marker;
 		$question = new Vraag;
 		$tochtLocatie = new Koppel_tocht_locatie;
-/*
+
 		if (empty($requestJson['quest']['name']) || empty($requestJson['quest']['course']) || empty($requestJson['quest']['info'])) 
 		{
 			return new View("NULL VALUES ARE NOT ALLOWED", Response::HTTP_NOT_ACCEPTABLE);
-		}*/
+		}
 		$quest->setNaam($requestJson['quest']['name']);
 		$quest->setOpleiding($requestJson['quest']['course']);
 		$quest->setInformatie($requestJson['quest']['info']);
@@ -43,7 +42,6 @@ class PostController extends FOSRestController
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($quest);
 		$em->flush();
-		//file_put_contents("testdebugvinniefuckedupOMG.txt", $requestJson);
 		foreach ($requestJson['marker'] as $jsonMarker) {
 
 			$question->setVraag($jsonMarker['questions']['question']);
