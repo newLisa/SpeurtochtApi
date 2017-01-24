@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\View\View;
 use AppBundle\Entity\Marker;
+use AppBundle\Entity\Vraag;
+use AppBundle\Entity\Koppel_tocht_locatie;
+
 
 class MarkerController extends FOSRestController
 {
@@ -44,21 +47,41 @@ class MarkerController extends FOSRestController
 	*/
 	public function postAction(Request $request)
 	{
-		$data = new Marker;
-		$latitude = $request->get('latitude');
-		$longitude = $request->get('longitude');
-		if(empty($latitude) || empty($longitude))
-		{
-			return new View("NULL VALUES ARE NOT ALLOWED", Response::HTTP_NOT_ACCEPTABLE); 
+		$em = $this->getDoctrine()->getManager();
+		$requestJson = json_decode($request->getContent(), true);
+		foreach ($requestJson['markers'] as $jsonMarker) {
+			$marker = new Marker;
+			$question = new Vraag;
+			$tochtLocatie = new Koppel_tocht_locatie;
+
+
+			$question->setVraag($jsonMarker['questions']['question']);
+			$question->setCorrect_Answer($jsonMarker['questions']['correctAnswer']);
+			$question->setPoints($jsonMarker['questions']['points']);
+			$question->setAnswer_1($jsonMarker['questions']['answer1']);
+			$question->setAnswer_2($jsonMarker['questions']['answer2']);
+			$question->setAnswer_3($jsonMarker['questions']['answer3']);
+			$question->setAnswer_4($jsonMarker['questions']['answer4']);
+			$em->persist($question);
+			$em->flush();
+
+			$marker->setName($jsonMarker['name']);
+			$marker->setLatitude($jsonMarker['location']['lat']);
+			$marker->setLongitude($jsonMarker['location']['lng']);
+			$marker->setInfo($jsonMarker['markerInfo']);
+			$marker->setQuestionId($question->getId());
+			$marker->setIsQr($jsonMarker['isQr'] === true? 1: 0);
+			$marker->setIsVisible($jsonMarker['isVisible'] === true? 1: 0);
+			$em->persist($marker);
+			$em->flush();
+
+			$tochtLocatie->setTochtId($requestJson['questId']);
+			$tochtLocatie->setLocatieId($marker->getId());
+			$em->persist($tochtLocatie);
+			$em->flush();
 		}
 
-		$data->setLatitude($latitude);
-		$data->setLongitude($longitude);
-		$em = $this->getDoctrine()->getManager();
-		$em->persist($data);
-		$em->flush();
-
-	 return new View("Marker Added Successfully", Response::HTTP_OK);
+		return new View("Marker Added Successfully", Response::HTTP_OK);
 	}
 
 	/**
