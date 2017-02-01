@@ -123,9 +123,9 @@ class SpeurtochtController extends FOSRestController
 	*/
 	public function deleteAction($id)
 	{
-		$data = new Speurtocht;
 		$sn = $this->getDoctrine()->getManager();
 		$quest = $this->getDoctrine()->getRepository('AppBundle:Speurtocht')->find($id);
+		file_put_contents('test.txt', $quest);
 		if (empty($quest)) 
 		{
 			return new View("Speurtocht not found", Response::HTTP_NOT_FOUND);
@@ -136,7 +136,7 @@ class SpeurtochtController extends FOSRestController
 			$sn->flush();
 		}
 	
-	return new View("Speurtocht deleted successfully", Response::HTTP_OK);
+		return new View("Speurtocht deleted successfully", Response::HTTP_OK);
 	}
 
 	/**
